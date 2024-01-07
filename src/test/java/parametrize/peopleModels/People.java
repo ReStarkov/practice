@@ -12,9 +12,6 @@ public class People {
         this.sex = sex;
     }
 
-    public People() {
-    }
-
     public String getName() {
         return name;
     }
