@@ -24,7 +24,7 @@ public class CsvTests {
 
     @DisplayName("Проверка возраста нескольких экземляров тестовых данных при помощи файла csv.")
     @ParameterizedTest
-    @CsvFileSource(resources = "/people.csv")
+    @CsvFileSource(resources = "/people.csv", delimiter = ',')
     public void checkAgeFromFile(String name, String age, String sex) {
         assertEquals("12", age);
     }
