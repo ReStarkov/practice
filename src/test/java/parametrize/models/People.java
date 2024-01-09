@@ -1,4 +1,4 @@
-package parametrize.peopleModels;
+package parametrize.models;
 
 public class People {
 
