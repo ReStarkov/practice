@@ -1,6 +1,7 @@
 package jackson;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import jackson.models.Cat;
 import jackson.utils.JsonHelper;
 import org.junit.jupiter.api.Assertions;
@@ -11,7 +12,7 @@ import java.io.IOException;
 
 public class JsonExampleCases {
 
-    @DisplayName("Преобразование объекта к строке")
+    @DisplayName("Преобразование объекта класса к строке")
     @Test
     public void fromObjectToString() throws JsonProcessingException {
         Cat cat = new Cat("Barsik", "Egyptian");
@@ -19,7 +20,7 @@ public class JsonExampleCases {
         Assertions.assertTrue(result.contains("Barsik"));
     }
 
-    @DisplayName("Преобразование строки к объекту")
+    @DisplayName("Преобразование строки к объекту класса")
     @Test
     public void fromStringToClass() throws JsonProcessingException {
         String catAsString = "{\"name\":\"Barsik\",\"breed\":\"Egyptian\"}";
@@ -27,10 +28,24 @@ public class JsonExampleCases {
         Assertions.assertEquals("Barsik", cat.getName());
     }
 
-    @DisplayName("Преобразование файла json к объекту")
+    @DisplayName("Преобразование файла json к классу")
+    @Test
+    public void fromSJsonFileToClass() throws IOException {
+        Cat cat = JsonHelper.fromJsonFileToClass("src/test/resources/cat.json", Cat.class);
+        Assertions.assertEquals("Barsik", cat.getName());
+    }
+
+    @DisplayName("Преобразование файла json к объекту JsonNode")
     @Test
     public void fromSJsonFileToObject() throws IOException {
-        Cat cat = JsonHelper.fromJsonFile("src/test/resources/cat.json", Cat.class);
-        Assertions.assertEquals("Barsik", cat.getName());
+        JsonNode result = JsonHelper.fromJsonFileToJsonNode("src/test/resources/cat.json");
+        Assertions.assertTrue(result.has("name"));
+    }
+
+    @DisplayName("Преобразование строки к объекту JsonNode")
+    @Test
+    public void fromStringToObject() throws IOException {
+        JsonNode result = JsonHelper.fromStringToJsonNode("{\"name\":\"Barsik\",\"breed\":\"Egyptian\"}");
+        Assertions.assertTrue(result.has("name"));
     }
 }
