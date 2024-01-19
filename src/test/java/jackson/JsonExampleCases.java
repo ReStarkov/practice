@@ -2,14 +2,22 @@ package jackson;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.util.ISO8601Utils;
 import jackson.models.Cat;
 import jackson.utils.JsonHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.ls.LSOutput;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
+@Tag("jackson")
 public class JsonExampleCases {
 
     @DisplayName("Преобразование объекта класса к строке")

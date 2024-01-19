@@ -20,10 +20,18 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
 }
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
 
 test {
     useJUnitPlatform()
+    testLogging {events "passed", "skipped", "failed"}
+}
+
+tasks.register("myTags",  Test.class) {
+    String[]tags = System.getProperty("customTags").split(",")
+    useJUnitPlatform{
+        for (String tag:tags){
+            includeTags.add(tag)
+        }
+    }
+    testLogging {events "passed", "skipped", "failed"}
 }

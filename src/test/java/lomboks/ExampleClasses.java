@@ -2,8 +2,10 @@ package lomboks;
 
 import lomboks.models.People;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+@Tag("ExampleClasses")
 public class ExampleClasses {
 
     @Test
