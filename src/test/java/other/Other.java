@@ -79,7 +79,7 @@ public class Other {
 
     @DisplayName("достать из массива только четные числа")
     @Test
-    public void sortSimpleNumbers() {
+    public void getNotSimpleNumbers() {
         //Напишите код, который достанет из массива только четные числа и вывести в виде списка
         int[] array = {1, 2, 3, 44, 66, 5, 7};
         List<Integer> result = new ArrayList<>();
@@ -93,7 +93,7 @@ public class Other {
 
     @DisplayName("достать из массива уникальные числа")
     @Test
-    public void getSimpleNumbers() {
+    public void getUnicNumbers() {
         //Напишите код, который достанет из массива только уникальные числа
         int[] array = {1, 2, 3, 44, 3, 66, 5, 7, 5};
         List<Integer> result = new ArrayList<>();
@@ -148,6 +148,23 @@ public class Other {
         }
         Integer result2= Integer.parseInt(stringBuilder1.toString());
         System.out.println(result2);
+    }
+
+    @DisplayName("Вывести только простые числа из списка (те что деляется только на 1 и на себя))")
+    @Test
+    public void simpleNumbers() {
+        int[] array = {1, 2, 3, 44, 7, 66, 5, 22 ,4};
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] % 2 == 0) {
+                    continue;
+            }
+            else {
+                result.add(array[i]);
+            }
+
+        }
+        System.out.println(result);
     }
 }
 
