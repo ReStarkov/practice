@@ -1,7 +1,6 @@
 package restAssured.theard.fakeapi.pojo.tests;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -18,13 +17,11 @@ import restAssured.theard.fakeapi.pojo.models.user.addUser.ResponseAddUser;
 import restAssured.theard.fakeapi.pojo.models.user.authUser.AuthUserRequest;
 import restAssured.theard.fakeapi.pojo.models.user.getSingleUser.GetSingleUserResponse;
 
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasProperty;
