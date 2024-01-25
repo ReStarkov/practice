@@ -150,7 +150,7 @@ public class SimplePojoTests {
 
     @Test
     @DisplayName("авторизация пользователя c созданием классов. Проверка содержания jwt токена")
-    public void authUserWithClassTest() throws ParseException {
+    public void authUserWithClassTest() {
         AuthUserRequest request = AuthUserRequest.builder()
                 .username("mor_2314")
                 .password("83r5^_").build();
