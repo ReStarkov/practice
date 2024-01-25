@@ -1,4 +1,4 @@
-package restAssured.theard;
+package restAssured.theard.fakeapi;
 
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
@@ -14,7 +14,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
 
-public class lesson_1 {
+public class SimpleTests {
 
     public final String basePath= "https://fakestoreapi.com/users";
 
@@ -55,7 +55,6 @@ public class lesson_1 {
                 .when()
                 .get(basePath)
                 .then().log().all()
-                .body("", greaterThan(0))
                 .body("", hasSize(limit));
     }
 

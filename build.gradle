@@ -22,7 +22,10 @@ dependencies {
 
 
 test {
-    useJUnitPlatform()
     testLogging {events "passed", "skipped", "failed"}
+    useJUnitPlatform {
+        if (project.hasProperty("includeTags")) {
+            includeTags(project.property("includeTags") as String)
+        }
+    }
 }
-
