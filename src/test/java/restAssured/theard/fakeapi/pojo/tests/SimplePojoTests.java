@@ -1,6 +1,10 @@
 package restAssured.theard.fakeapi.pojo.tests;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -11,10 +15,17 @@ import restAssured.theard.fakeapi.pojo.models.user.Geolocation;
 import restAssured.theard.fakeapi.pojo.models.user.Name;
 import restAssured.theard.fakeapi.pojo.models.user.addUser.RequestAddUser;
 import restAssured.theard.fakeapi.pojo.models.user.addUser.ResponseAddUser;
+import restAssured.theard.fakeapi.pojo.models.user.authUser.AuthUserRequest;
 import restAssured.theard.fakeapi.pojo.models.user.getSingleUser.GetSingleUserResponse;
+
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.notNullValue;
@@ -115,11 +126,47 @@ public class SimplePojoTests {
     @Test
     @DisplayName("удаление пользователя")
     public void deleteUserTest() {
-
         given()
-                .delete("https://fakestoreapi.com/users/6")
+                .delete("/users/6")
                 .then()
                 .statusCode(200);
 
+    }
+
+    @Test
+    @DisplayName("авторизация пользователя. Вариант отправки просто карты вместо создания класса")
+    public void authUserWithMapTest() {
+        Map<String,String> map = new HashMap<>();
+        map.put("username", "mor_2314");
+        map.put("password", "83r5^_");
+        given()
+                .contentType(ContentType.JSON)
+                .body(map)
+                .post("/auth/login")
+                .then()
+                .log().all()
+                .statusCode(200);
+    }
+
+    @Test
+    @DisplayName("авторизация пользователя c созданием классов. Проверка содержания jwt токена")
+    public void authUserWithClassTest() throws ParseException {
+        AuthUserRequest request = AuthUserRequest.builder()
+                .username("mor_2314")
+                .password("83r5^_").build();
+
+        String token = given()
+                .contentType(ContentType.JSON)
+                .body(request)
+                .post("/auth/login")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract().jsonPath().getString("token");
+
+        // парсинг токена
+        DecodedJWT decodedJWT = JWT.decode(token);
+        String username = decodedJWT.getClaim("user").toString();
+        assertThat(username, containsString(request.getUsername()));
     }
 }
