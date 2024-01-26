@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id "io.freefair.lombok" version "8.4"
-    id 'io.qameta.allure' version '2.10.0'
+    id 'io.qameta.allure' version '2.11.2'
 }
 
 group 'org.example'
@@ -21,13 +21,6 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
     implementation 'com.auth0:java-jwt:3.18.2'
     implementation 'io.qameta.allure:allure-rest-assured:2.20.1'}
-
-allure {
-    version = '2.10.0'
-    useJUnit5 {
-        version = '2.10.0'
-    }
-}
 
 test {
     testLogging {events "passed", "skipped", "failed"}

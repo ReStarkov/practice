@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -236,30 +237,33 @@ public class RefacorSimplePojoTests {
     @DisplayName("получение отсортированного списка по id")
     public void sortUsersTest() {
         String sortBy = "desc";
-        List<ResponseItem> sortedResponse = given().queryParam("sort", sortBy)
+        List<ResponseItem> sortedResponse = step("Получение отсортированного списка пользователей",
+                () -> given().queryParam("sort", sortBy)
                 .when()
                 .get("/users")
                 .then()
                 .statusCode(200)
-                .extract().jsonPath().getList("", ResponseItem.class);
+                .extract().jsonPath().getList("", ResponseItem.class));
 
-        List<ResponseItem> notSortedResponse = given()
+        List<ResponseItem> notSortedResponse = step("Получение не отсортированного списка пользователей",
+                () -> given()
                 .when()
                 .get("/users")
                 .then()
                 .statusCode(200)
-                .extract().jsonPath().getList("", ResponseItem.class);
+                .extract().jsonPath().getList("", ResponseItem.class));
 
-        //получение id из респонсов через стрим
-        List<Integer> sortedIds = sortedResponse
+
+        List<Integer> sortedIds = step("Получение id из сортированного списка", () -> sortedResponse
                 .stream().map(listElement -> listElement.getId())
-                .collect(Collectors.toList());
-        List<Integer> newSortedIds = notSortedResponse
+                .collect(Collectors.toList()));
+        List<Integer> newSortedIds = step("Получение и сортировка id из неотсортированного списка",
+                () -> notSortedResponse
                 .stream().map(listElement -> listElement.getId())
                 .sorted(Comparator.reverseOrder())
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
 
-        Assertions.assertEquals(sortedIds, newSortedIds);
+        step("Сравнение результатов", () -> Assertions.assertEquals(sortedIds, newSortedIds));
     }
 
     @Test
@@ -267,14 +271,15 @@ public class RefacorSimplePojoTests {
     @DisplayName("получение лимитированного списка")
     public void getLimitTest(){
         int limitSize = 3;
-        List<ResponseItem> respose = given().queryParam("limit", limitSize)
+        List<ResponseItem> respose = step("Отправка на получение списка пользователей",
+                () -> given().queryParam("limit", limitSize)
                 .when()
                 .get("/users")
                 .then()
                 .statusCode(200)
-                .extract().jsonPath().getList("", ResponseItem.class);
+                .extract().jsonPath().getList("", ResponseItem.class));
 
-        assertThat(respose, hasSize(limitSize));
+        step("Проверка результата", () -> assertThat(respose, hasSize(limitSize)));
     }
 
     @Tag("pojo")
@@ -282,13 +287,14 @@ public class RefacorSimplePojoTests {
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 10})
     public void getParameterizedLimitTest(int limitSize ){
-        List<ResponseItem> respose = given().queryParam("limit", limitSize)
+        List<ResponseItem> respose = step("Отправка запроса на получение списка пользователей",
+                () -> given().queryParam("limit", limitSize)
                 .when()
                 .get("/users")
                 .then()
                 .statusCode(200)
-                .extract().jsonPath().getList("", ResponseItem.class);
+                .extract().jsonPath().getList("", ResponseItem.class));
 
-        assertThat(respose, hasSize(limitSize));
+        step("Проверка результата", ()-> assertThat(respose, hasSize(limitSize)));
     }
 }
