@@ -2,9 +2,7 @@ package restAssured.theard.fakeapi.pojo.tests;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -28,11 +26,6 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class SimplePojoTests {
-
-    @BeforeAll
-    private static void setUp() {
-        RestAssured.baseURI = "https://fakestoreapi.com";
-    }
 
     private RequestAddUser createUser(){
         Name name = new Name("Wayne", "Rooney");
@@ -77,7 +70,7 @@ public class SimplePojoTests {
         ResponseAddUser response = given()
                 .body(request)
                 .when()
-                .post("/users")
+                .post("https://fakestoreapi.com/users")
                 .then()
                 .log().all()
                 .extract().as(ResponseAddUser.class);
@@ -96,7 +89,7 @@ public class SimplePojoTests {
 
         int id = given()
                 .body(user)
-                .post("/users")
+                .post("https://fakestoreapi.com/users")
                 .then()
                 .extract()
                 .body()
@@ -112,7 +105,7 @@ public class SimplePojoTests {
                 .statusCode(200);
 
         GetSingleUserResponse response = given()
-                .get("/users/" + id)
+                .get("https://fakestoreapi.com/users/" + id)
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -124,7 +117,7 @@ public class SimplePojoTests {
     @DisplayName("удаление пользователя")
     public void deleteUserTest() {
         given()
-                .delete("/users/6")
+                .delete("https://fakestoreapi.com/users/6")
                 .then()
                 .statusCode(200);
 
@@ -139,7 +132,7 @@ public class SimplePojoTests {
         given()
                 .contentType(ContentType.JSON)
                 .body(map)
-                .post("/auth/login")
+                .post("https://fakestoreapi.com/auth/login")
                 .then()
                 .log().all()
                 .statusCode(200);
@@ -155,7 +148,7 @@ public class SimplePojoTests {
         String token = given()
                 .contentType(ContentType.JSON)
                 .body(request)
-                .post("/auth/login")
+                .post("https://fakestoreapi.com/auth/login")
                 .then()
                 .log().all()
                 .statusCode(200)
