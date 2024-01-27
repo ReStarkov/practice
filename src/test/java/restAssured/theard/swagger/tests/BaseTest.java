@@ -12,7 +12,6 @@ import restAssured.theard.swagger.models.request.RegistrationRequest;
 import restAssured.theard.swagger.models.response.RegistrationResponse;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class BaseTest {
     @BeforeAll
