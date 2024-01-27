@@ -2,20 +2,14 @@ package restAssured.theard.fakeapi.pojo.tests;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import restAssured.theard.listener.CustomTpl;
 import restAssured.theard.fakeapi.pojo.models.user.Address;
 import restAssured.theard.fakeapi.pojo.models.user.Geolocation;
 import restAssured.theard.fakeapi.pojo.models.user.Name;
@@ -47,7 +41,7 @@ public class RefacorSimplePojoTests {
     private static void setUp() {
         RestAssured.baseURI = "https://fakestoreapi.com";
         RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter(),
-                new AllureRestAssured());
+                CustomTpl.customFilter().withCustomTemplates());
     }
 
     private RequestAddUser createUser() {
